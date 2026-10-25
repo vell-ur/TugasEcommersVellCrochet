@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VELLCROCHET – Toko Kerajinan Rajut</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">PENGERJAAN 3–7 HARI, DIKIRIM KE SELURUH INDONESIA. <a href="#grid" id="topbarLink">LIHAT PRODUK</a></div>
+<header><div class="wrap">
+ <span class="brand">🧶 VELLCROCHET</span>
+ <nav class="mainnav" aria-label="Kategori"><button class="navlink" data-nav="Semua">Semua</button><button class="navlink" data-nav="Ganci">Ganci</button><button class="navlink" data-nav="Boneka">Boneka</button><button class="navlink" data-nav="Baju">Baju</button><button class="navlink" data-nav="Lainnya">Lainnya</button></nav>
+ <span class="hbtns"><button class="btn" id="theme" aria-pressed="false">🌙 Mode </button><a class="btn" id="askTop" href="#" target="_blank" rel="noopener">💬 Tanya Penjual</a><button class="btn" id="openOrders">📦 Pesanan</button><button class="btn" id="openCart">Keranjang (<span id="cnt">0</span>)</button><button class="btn acctbtn" id="openAcct">👤 Masuk</button></span>
+</div></header>
+
+<div class="crumbbar"><nav class="crumb wrap" aria-label="Jejak halaman"><button class="crumblink" data-crumb="top">Beranda</button> <i>•</i> <button class="crumblink" data-crumb="all"><strong>Semua Produk</strong></button></nav></div>
+
+<section class="hero" aria-label="Banner">
+ <div class="herotxt">
+  <h1>Rajutan tangan, dibuat satu per satu.</h1>
+  <p>Gantungan kunci, boneka, baju, dompet, dan aksesori rajut lainnya.</p>
+ </div>
+ <div class="yarn" id="heroCar" role="group" aria-roledescription="carousel" aria-label="Contoh rajutan">
+  <div class="sv"><div class="vp"><div class="trk" id="heroTrk"></div></div>
+   <button class="hnav l" id="heroL" type="button" aria-label="Sebelumnya">‹</button><button class="hnav r" id="heroR" type="button" aria-label="Berikutnya">›</button></div>
+  <div class="dots" id="heroDots"></div>
+  <small>Pengerjaan 3–7 hari · bisa custom warna</small>
+ </div>
+</section>
+
+<div class="wrap">
+<div class="phead"><h2 class="ptitle">Semua Produk</h2><span class="meta" id="count"></span></div>
+<p class="pdesc clamp" id="pdesc">Semua rajutan VELLCROCHET dibuat tangan satu per satu dengan benang pilihan. Dari gantungan kunci, boneka, hingga cardigan dan aksesori, semuanya bisa dicustom warna sesuai seleramu. Pengerjaan 3–7 hari dan dikirim ke seluruh Indonesia.</p>
+<button class="link" id="pmore">Baca lebih banyak</button>
+
+<div class="tools">
+ <div><label for="q">Cari produk</label><input id="q" type="search" placeholder="Contoh: kucing, dompet, tas"></div>
+ <div><label for="sortkey">Urutkan berdasarkan</label><select id="sortkey"><option value="">Bawaan (urutan awal)</option><option value="hargaA">Harga termurah</option><option value="hargaD">Harga termahal</option><option value="nama">Nama A–Z</option><option value="rating">Rating tertinggi</option></select></div>
+ <div><label for="smode">Metode pencarian</label><select id="smode"><option value="linear">Linear Search</option><option value="binary">Binary Search (awalan nama)</option></select></div>
+ <div><label for="salgo">Algoritma sorting</label><select id="salgo"><option value="bubble">Bubble Sort</option><option value="selection">Selection Sort</option><option value="insertion">Insertion Sort</option></select></div>
+</div>
+<div class="fbar"><button class="btn" id="openF">☰ Filter (0)</button><button class="link" id="clearF" hidden>Hapus filter</button></div>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+
+<section class="blk">
+ <h2>Log sorting dan searching</h2>
+ <p class="meta">Setiap perbandingan dan pertukaran dicatat. Log diperbarui saat kamu mengubah urutan atau mengetik pencarian.</p>
+ <div class="two">
+  <div><strong>Log Sorting</strong><pre class="log" id="lsort" aria-live="polite">Pilih urutan untuk melihat log.</pre></div>
+  <div><strong>Log Searching</strong><pre class="log" id="lsearch" aria-live="polite">Ketik di kolom pencarian untuk melihat log.</pre></div>
+ </div>
+</section>
+
+<section class="blk">
+ <details class="dd">
+  <summary><h2>Struct, array, dan pointer di balik toko ini</h2><span class="chev" aria-hidden="true">▾</span></summary>
+  <div class="ddbody">
+ <p class="meta">Produk disimpan sebagai struct di memori (heap). Daftar toko dan keranjang hanya menyimpan pointer (alamat), jadi sorting menukar alamat, bukan menyalin data produk.</p>
+ <div class="two">
+  <div class="box"><strong>Struct Produk</strong><code class="mem">struct Produk {
+  int    id;
+  char   nama[40];
+  char   kategori[20];
+  int    harga;
+  int    stok;
+  float  rating;
+};
+Produk* daftar[32];   // array of pointer
+ItemKeranjang keranjang[];  // {Produk* ptr; int qty}</code></div>
+  <div class="box"><strong>Array pointer daftar[] saat ini</strong><div class="mem" id="arr"></div></div>
+ </div>
+ <div class="box" style="margin-top:16px"><strong>Peta memori (heap)</strong>
+  <table><thead><tr><th>Alamat</th><th>id</th><th>nama</th><th>kategori</th><th>harga</th><th>stok</th><th>rating</th></tr></thead><tbody id="heap"></tbody></table></div>
+</div>
+ </details>
+</section>
+</div>
+<footer class="sfoot">
+ <div class="fstrip"><div class="fwrap">
+  <div><span class="fi">🎨</span><div><strong>Custom warna sesuai selera</strong><span>Tulis warna favoritmu di catatan pesanan</span></div></div>
+  <div><span class="fi">🚚</span><div><strong>Dikirim ke seluruh Indonesia</strong><span>Dikemas rapi dan aman</span></div></div>
+  <div><span class="fi">💬</span><div><strong>Tanya penjual lewat WhatsApp</strong><span>Tanyakan stok, warna, dan harga</span></div></div>
+ </div></div>
+ <div class="fmain fwrap">
+  <div class="fcol fbrand">
+   <div class="brand">🧶 VELLCROCHET</div>
+   <p><strong>Mau tahu rajutan terbaru atau pesan custom? Langsung chat kami di WhatsApp!</strong></p>
+   <a class="btn" id="footWA" href="#" target="_blank" rel="noopener">💬 Chat WhatsApp</a>
+  </div>
+  <div class="fcol"><h3>Bantuan</h3><button class="flink" data-info="cara">Cara Memesan</button><button class="flink" data-info="bayar">Pembayaran</button><button class="flink" data-info="kirim">Pengiriman</button><button class="flink" data-info="warna">Custom Warna</button></div>
+  <div class="fcol"><h3>VELLCROCHET</h3><button class="flink" data-nav="Semua">Semua Produk</button><button class="flink" data-nav="Ganci">Ganci</button><button class="flink" data-nav="Boneka">Boneka</button><button class="flink" data-nav="Baju">Baju</button></div>
+  <div class="fcol"><h3>Pengguna</h3><button class="flink" data-act="openAcct">Akun Saya</button><button class="flink" data-act="openOrders">Lacak Pesanan</button><button class="flink" data-act="openCart">Keranjang</button></div>
+  <div class="fcol"><h3>Hubungi Kami</h3><p class="fp">Tanya stok, harga, dan custom warna lewat WhatsApp.</p><p class="fp">Pengerjaan 3–7 hari · dikirim ke seluruh Indonesia.</p></div>
+ </div>
+ <div class="fcopy">© 2026 VELLCROCHET · Dipesan lewat web, dikerjakan dengan tangan.</div>
+</footer>
+<button id="toTop" aria-label="Kembali ke atas">↑</button>
+<div id="info" class="modal" role="dialog" aria-label="Informasi"><div class="mbox">
+ <button class="link x" id="infox" aria-label="Tutup">✕</button>
+ <h2 id="infot"></h2><p id="infob" class="infob"></p>
+</div></div>
+
+<section id="pd" aria-label="Detail produk"><div class="pdwrap">
+ <div class="crumb"><button class="link" id="pdclose">← Kembali</button> <span id="pdcrumb"></span></div>
+ <div class="pdgrid">
+  <div class="pdpic" id="pdpic"></div>
+  <div class="pdinfo">
+   <h1 id="pdname"></h1>
+   <div class="pdprice" id="pdprice"></div>
+   <p class="meta" id="pdmeta"></p><hr>
+   <label>Jumlah</label>
+   <div class="qtyrow"><button id="pdm" aria-label="Kurangi">−</button><span id="pdq">1</span><button id="pdp" aria-label="Tambah">+</button></div>
+   <div class="acts big"><button class="btn big" id="pdadd">🛒 Tambah ke Keranjang</button><a class="btn alt big" id="pdask" href="#" target="_blank" rel="noopener">💬 Tanya Penjual</a></div>
+   <details open><summary>Deskripsi</summary><p>Dirajut tangan satu per satu dengan benang pilihan. Bisa custom warna sesuai permintaan. Pengerjaan 3–7 hari.</p></details>
+   <details><summary>Detail</summary><ul><li>Kategori: <span id="pdkat"></span></li><li>Rating: <span id="pdrating"></span></li><li>Stok: <span id="pdstok"></span></li><li>Alamat memori: <span id="pdptr" class="ptr"></span></li></ul></details>
+   <details><summary>Pengiriman</summary><p>Dikirim ke seluruh Indonesia. Pesanan dikemas rapi dan aman.</p></details>
+  </div>
+ </div>
+<h2 class="sec">Produk Serupa</h2><div class="railwrap"><button class="railbtn l" id="simL" aria-label="Geser kiri">‹</button><div class="rail" id="pdsim"></div><button class="railbtn r" id="simR" aria-label="Geser kanan">›</button></div></div></section>
+
+<aside id="fpanel" aria-label="Filter produk">
+ <div style="display:flex;justify-content:space-between;align-items:center"><h2>Filter</h2><button class="btn" id="closeF">Tutup</button></div>
+ <div id="fgroups"></div>
+ <div class="fact"><button class="btn" id="fclear">Hapus Filter</button><button class="btn alt" id="fshow">Tunjukkan Produk</button></div>
+</aside>
+
+<aside id="cart" aria-label="Keranjang belanja">
+ <div class="cart-h"><h2>Keranjang Saya</h2><button class="btn" id="closeCart">Tutup</button></div>
+ <div class="chead"><label class="ck"><input type="checkbox" id="chkAll" aria-label="Pilih semua produk"><span>Semua Produk</span></label><span class="c-h">Harga Satuan</span><span class="c-q">Kuantitas</span><span class="c-t">Total Harga</span><span class="c-a">Aksi</span></div>
+ <div id="items"></div>
+ <div class="cbar">
+  <label class="ck"><input type="checkbox" id="chkAll2"> <span>Pilih Semua (<span id="cAllN">0</span>)</span></label>
+  <button class="link" id="delSel">Hapus</button>
+  <span class="grow"></span>
+  <span class="ctot">Total (<span id="selN">0</span> produk): <strong id="total">Rp0</strong></span>
+  <button class="btn alt" id="checkout">Checkout</button>
+ </div>
+</aside>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div id="auth" class="modal" role="dialog" aria-label="Akun"><div class="mbox">
+ <button class="link x" id="authx" aria-label="Tutup">✕</button>
+ <div class="tabs"><button class="chip" id="tabIn" aria-pressed="true">Masuk</button><button class="chip" id="tabUp" aria-pressed="false">Daftar</button></div>
+ <label for="aNama" id="lNama">Nama lengkap</label><input id="aNama" autocomplete="name">
+ <label for="aEmail">Email</label><input id="aEmail" type="email" autocomplete="email">
+ <label for="aPass">Kata sandi (min. 6 karakter)</label><input id="aPass" type="password" autocomplete="current-password">
+ <p class="err" id="aErr" aria-live="polite"></p>
+ <button class="btn big" id="aGo">Masuk</button>
+</div></div>
+<div id="acct" class="modal" role="dialog" aria-label="Akun saya"><div class="mbox pbox">
+ <button class="link x" id="acctx" aria-label="Tutup">✕</button>
+ <aside class="pside">
+  <div class="pwho"><div class="av" id="sAv"></div><div><strong id="sUser"></strong><button class="link" id="sEdit" type="button">✏️ Ubah Profil</button></div></div>
+  <nav class="pmenu" aria-label="Akun saya">
+   <h3>👤 Akun Saya</h3>
+   <button class="plink" type="button" data-ptab="profil" aria-current="true">Profil</button>
+   <button class="plink" type="button" data-ptab="alamat" aria-current="false">Alamat</button>
+   <button class="plink" type="button" data-ptab="sandi" aria-current="false">Ubah Password</button>
+  </nav>
+  <button class="btn" id="logout" type="button">Keluar</button>
+ </aside>
+ <div class="pmain">
+  <section class="ptab" id="tab-profil">
+   <h2>Profil Saya</h2><p class="meta">Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p><hr>
+   <div class="pcols">
+    <div class="pform">
+     <div class="prow"><span class="pl">Username</span><span class="pv" id="pUser"></span></div>
+     <div class="prow"><label class="pl" for="eNama">Nama</label><input id="eNama" autocomplete="name" maxlength="60"></div>
+     <div class="prow"><span class="pl">Email</span><span class="pv"><span id="pEmail"></span><button class="ulink" id="chEmail" type="button">Ubah</button></span></div>
+     <div class="prow" id="rEmail" hidden><span class="pl"></span><div class="pstack"><input id="eEmail" type="email" placeholder="Email baru" autocomplete="email" aria-label="Email baru"><input id="ePass" type="password" placeholder="Kata sandi saat ini" autocomplete="current-password" aria-label="Kata sandi saat ini"></div></div>
+     <div class="prow"><span class="pl">Nomor Telepon</span><span class="pv"><span id="pHp"></span><button class="ulink" id="chHp" type="button">Ubah</button></span></div>
+     <div class="prow" id="rHp" hidden><span class="pl"></span><input id="eHp" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" aria-label="Nomor telepon"></div>
+     <div class="prow"><span class="pl">Jenis Kelamin</span><div class="rdg" role="radiogroup" aria-label="Jenis kelamin"><label class="rd"><input type="radio" name="eGender" value="L"> Laki-laki</label><label class="rd"><input type="radio" name="eGender" value="P"> Perempuan</label><label class="rd"><input type="radio" name="eGender" value="X"> Lainnya</label></div></div>
+     <div class="prow"><span class="pl"></span><div><p class="err" id="eErr" aria-live="polite"></p><button class="btn big" id="eSave" type="button">Simpan</button></div></div>
+    </div>
+    <div class="pphoto">
+     <div class="av big" id="pBig"></div>
+     <button class="btn" id="pPick" type="button">Pilih Gambar</button>
+     <button class="ulink" id="pDel" type="button">Hapus foto</button>
+     <input id="pFile" type="file" accept="image/jpeg,image/png" hidden>
+     <p class="meta">Ukuran gambar: maks. 1 MB<br>Format gambar: .JPEG, .PNG</p>
+    </div>
+   </div>
+  </section>
+  <section class="ptab" id="tab-alamat" hidden>
+   <div id="adView">
+    <div class="adhead"><div><h2>Alamat Saya</h2><p class="meta">Simpan beberapa alamat. Alamat utama otomatis terisi saat checkout.</p></div><button class="btn" id="adNew" type="button">＋ Tambahkan Alamat</button></div><hr>
+    <div id="adList"></div>
+   </div>
+  </section>
+  <section class="ptab" id="tab-sandi" hidden>
+   <h2>Ubah Password</h2><p class="meta">Gunakan kata sandi yang sulit ditebak, minimal 6 karakter.</p><hr>
+   <div class="pform">
+    <div class="prow"><label class="pl" for="spOld">Kata sandi lama</label><input id="spOld" type="password" autocomplete="current-password"></div>
+    <div class="prow"><label class="pl" for="spNew">Kata sandi baru</label><input id="spNew" type="password" autocomplete="new-password"></div>
+    <div class="prow"><label class="pl" for="spNew2">Konfirmasi sandi baru</label><input id="spNew2" type="password" autocomplete="new-password"></div>
+    <div class="prow"><span class="pl"></span><div><p class="err" id="spErr" aria-live="polite"></p><button class="btn big" id="spSave" type="button">Simpan Password</button></div></div>
+   </div>
+  </section>
+ </div>
+</div></div>
+
+<div id="adModal" class="modal" role="dialog" aria-label="Alamat"><div class="mbox wide">
+ <button class="link x" id="adx" type="button" aria-label="Tutup">✕</button>
+ <h2 id="adTitle">Alamat Baru</h2>
+ <div class="mscroll">
+  <div class="adrow2">
+   <div><label for="adNama">Nama Lengkap</label><input id="adNama" autocomplete="name"></div>
+   <div><label for="adHp">Nomor Telepon</label><input id="adHp" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></div>
+  </div>
+  <div class="geo">
+   <div><label for="adProv">Provinsi</label><select id="adProv"><option value="">Memuat…</option></select><input id="adProvT" hidden placeholder="Nama provinsi" aria-label="Provinsi"></div>
+   <div><label for="adKab">Kota / Kabupaten</label><select id="adKab" disabled><option value="">Pilih kota/kabupaten</option></select><input id="adKabT" hidden placeholder="Nama kota/kabupaten" aria-label="Kota atau kabupaten"></div>
+   <div><label for="adKec">Kecamatan</label><select id="adKec" disabled><option value="">Pilih kecamatan</option></select><input id="adKecT" hidden placeholder="Nama kecamatan" aria-label="Kecamatan"></div>
+   <div><label for="adKel">Kelurahan / Desa (opsional)</label><select id="adKel" disabled><option value="">Pilih kelurahan/desa</option></select><input id="adKelT" hidden placeholder="Nama kelurahan/desa" aria-label="Kelurahan atau desa"></div>
+  </div>
+  <label for="adPos">Kode pos</label><input id="adPos" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="5 angka">
+  <label for="adJalan">Nama Jalan, Gedung, No. Rumah</label><textarea id="adJalan" rows="2" autocomplete="street-address"></textarea>
+  <label for="adDetail">Detail Lainnya (Cth: Blok / Unit No., Patokan)</label><input id="adDetail">
+  <label class="rd"><input type="checkbox" id="adMain"> Jadikan alamat utama</label>
+ </div>
+ <p class="err" id="adErr" aria-live="polite"></p>
+ <div class="adfoot"><button class="link" id="adCancel" type="button">Nanti Saja</button><button class="btn" id="adSave" type="button">OK</button></div>
+</div></div>
+
+<div id="co" class="modal" role="dialog" aria-label="Data pemesanan"><div class="mbox wide">
+ <button class="link x" id="cox" aria-label="Tutup">✕</button>
+ <h2>Data Pemesanan</h2>
+ <p class="meta" id="cosum"></p>
+ <div class="mscroll">
+ <div id="coAddrWrap" hidden><label>Pilih alamat tersimpan</label><div class="chips" id="coAddr"></div></div>
+ <label for="nama">Nama penerima</label><input id="nama" autocomplete="name">
+ <label for="hp">No. HP / WhatsApp</label><input id="hp" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx">
+ <label for="alamat">Alamat lengkap</label><textarea id="alamat" rows="3" autocomplete="street-address" placeholder="Jalan, nomor rumah, RT/RW, kelurahan, kecamatan"></textarea>
+ <div class="two2"><div><label for="kota">Kota / Kabupaten</label><input id="kota" autocomplete="address-level2"></div><div><label for="pos">Kode pos</label><input id="pos" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div></div>
+ <label for="catatan">Catatan (warna custom, dll. — opsional)</label><input id="catatan">
+ <label>Metode pembayaran</label>
+ <div class="chips" id="paychips"></div>
+ <p class="meta" id="payhint"></p>
+ <div id="qrisBox" class="qrisbox" hidden>
+  <img id="qrisImg" alt="QRIS VELLCROCHET">
+  <p class="meta">Scan dengan aplikasi bank atau e-wallet, lalu kirim bukti bayar lewat WhatsApp.</p>
+ </div>
+ </div>
+ <p class="err" id="coErr" aria-live="polite"></p>
+ <button class="btn big" id="coGo">Buat Pesanan</button>
+</div></div>
+
+<div id="orders" class="modal" role="dialog" aria-label="Pesanan saya"><div class="mbox wide">
+ <button class="link x" id="ordx" aria-label="Tutup">✕</button>
+ <h2>📦 Pesanan Saya</h2><p class="meta">Pantau status pesananmu: sedang dibuat, dalam pengiriman, sampai diterima.</p>
+ <div id="olist" aria-live="polite"></div>
+</div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
