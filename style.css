@@ -496,3 +496,18 @@ body{position:relative}
 /* Cegah scroll ke samping dari elemen yang melebar */
 html,body{max-width:100%;overflow-x:hidden}
 img{max-width:100%;height:auto}
+
+/* ===== Foto detail produk: penuh mengisi kotak, tidak terpotong ===== */
+.pdpic:has(img){
+  display:block;
+  aspect-ratio:auto;   /* kotak mengikuti proporsi foto */
+  padding:0;
+  line-height:0;
+  align-self:start;
+}
+.pdpic img{
+  display:block;
+  width:100%;
+  height:auto;         /* seluruh foto terlihat, tidak ada yang terpotong */
+  object-fit:cover;
+}
